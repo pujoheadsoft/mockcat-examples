@@ -90,6 +90,7 @@ test-suite mockcat-examples-test
   main-is: Spec.hs
   other-modules:
       PolySemySpec
+      TaglessFinalSpec
       Paths_mockcat_examples
   autogen-modules:
       Paths_mockcat_examples

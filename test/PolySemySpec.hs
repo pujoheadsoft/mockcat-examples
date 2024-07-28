@@ -8,7 +8,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 
-module PolySemySpec where
+module PolySemySpec (spec) where
 
 import Data.Function ((&))
 import Data.Text
@@ -54,5 +54,5 @@ spec = do
         & runM
 
     result `shouldBe` ()
-    
+
     writeFileMock `shouldApplyTo` ("output.text" |> pack "modifiedContent")
