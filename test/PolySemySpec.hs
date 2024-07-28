@@ -10,42 +10,49 @@
 
 module PolySemySpec where
 
-import Polysemy (Sem, interpret, makeSem, Member, Embed, embed, runM)
+import Data.Function ((&))
+import Data.Text
+import Polysemy (Embed, Members, Sem, interpret, makeSem, runM)
+import Polysemy.Resource
 import Test.Hspec (Spec, it, shouldBe)
-import Test.MockCat (createMock, (|>), stubFn, shouldApplyTo, createStubFn)
+import Test.MockCat (createMock, createStubFn, stubFn, (|>), shouldApplyTo)
+import Prelude hiding (readFile, writeFile)
 
-data Teletype m a where
-  ReadTTY  :: Teletype m String
-  WriteTTY :: String -> Teletype m ()
+data FileOperation m a where
+  ReadFile :: FilePath -> FileOperation m Text
+  WriteFile :: FilePath -> Text -> FileOperation m ()
 
-makeSem ''Teletype
+makeSem ''FileOperation
 
-teletypeToIO :: Member (Embed IO) r => Sem (Teletype ': r) a -> Sem r a
-teletypeToIO = interpret \case
-  ReadTTY      -> embed getLine
-  WriteTTY msg -> embed $ putStrLn msg
-
-echo :: Member Teletype r => Sem r ()
-echo = do
-  i <- readTTY
-  case i of
-    "" -> pure ()
-    _  -> writeTTY i >> echo
-
--- main :: IO ()
--- main = runM . teletypeToIO $ echo
+program ::
+  (Members [FileOperation, Resource, Embed IO] r) =>
+  FilePath ->
+  FilePath ->
+  (Text -> Text) ->
+  Sem r ()
+program inputPath outputPath modifyText = do
+  content <- readFile inputPath
+  let modifiedContent = modifyText content
+  writeFile outputPath modifiedContent
 
 spec :: Spec
 spec = do
-  it "" do
-    writeMock <- createMock $ "user input" |> ()
+  it "Read, edit, and output files" do
+    readFileStub <- createStubFn $ "input.txt" |> pack "content"
+    writeFileMock <- createMock $ "output.text" |> pack "modifiedContent" |> ()
+    modifyContentStub <- createStubFn $ pack "content" |> pack "modifiedContent"
 
-    let
-      runTeletype :: Sem (Teletype : r) a -> Sem r a
-      runTeletype = interpret $ \case
-        ReadTTY -> pure "user input"
-        WriteTTY msg -> pure $ stubFn writeMock msg
+    let runFileOperation :: Sem (FileOperation : r) a -> Sem r a
+        runFileOperation = interpret $ \case
+          ReadFile path -> pure $ readFileStub path
+          WriteFile path text -> pure $ stubFn writeFileMock path text
 
-    _ <- runM . runTeletype $ echo
+    result <-
+      program "input.txt" "output.text" modifyContentStub
+        & runFileOperation
+        & runResource
+        & runM
 
-    writeMock `shouldApplyTo` "user input"
+    result `shouldBe` ()
+    
+    writeFileMock `shouldApplyTo` ("output.text" |> pack "modifiedContent")

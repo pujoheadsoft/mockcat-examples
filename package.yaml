@@ -26,6 +26,7 @@ dependencies:
 - HMock >= 0.5.1.2
 - hspec
 - mockcat
+- text
 
 ghc-options:
 - -Wall
