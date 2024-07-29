@@ -49,6 +49,7 @@ library
     , base >=4.7 && <5
     , hspec
     , mockcat
+    , mtl
     , polysemy
     , polysemy-plugin
     , text
@@ -80,6 +81,7 @@ executable mockcat-examples-exe
     , hspec
     , mockcat
     , mockcat-examples
+    , mtl
     , polysemy
     , polysemy-plugin
     , text
@@ -90,7 +92,9 @@ test-suite mockcat-examples-test
   main-is: Spec.hs
   other-modules:
       PolySemySpec
-      TaglessFinalSpec
+      SimpleCaseSpec
+      TypeClassSpec
+      TypeClassWithHMockSpec
       Paths_mockcat_examples
   autogen-modules:
       Paths_mockcat_examples
@@ -114,6 +118,7 @@ test-suite mockcat-examples-test
     , hspec
     , mockcat
     , mockcat-examples
+    , mtl
     , polysemy
     , polysemy-plugin
     , text

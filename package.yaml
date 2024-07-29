@@ -27,6 +27,7 @@ dependencies:
 - hspec
 - mockcat
 - text
+- mtl
 
 ghc-options:
 - -Wall

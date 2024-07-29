@@ -2,7 +2,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-module TaglessFinalSpec (spec) where
+module TypeClassWithHMockSpec (spec) where
 
 import Data.Text (Text, pack)
 import Prelude hiding (writeFile, readFile)
