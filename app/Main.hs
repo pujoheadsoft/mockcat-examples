@@ -1,6 +1,15 @@
 module Main (main) where
 
-import Lib
+import Test.MockCat (createStubFn, (|>))
+import Control.Monad.Reader (Reader, ask, runReader)
+import Data.Function ((&))
 
 main :: IO ()
-main = someFunc
+main = do
+  f <- createStubFn $ "input" |> do
+    e <- ask
+    pure @(Reader String) $ "env is: " <> e
+  
+  f "input"
+    & flip runReader "option value"
+    & print -- "env is: option value"
