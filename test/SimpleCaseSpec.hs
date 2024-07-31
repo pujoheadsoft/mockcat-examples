@@ -4,8 +4,8 @@ import Test.Hspec (Spec, it, shouldBe)
 import Test.MockCat (createStubFn, (|>))
 
 checkLength :: (String -> Bool) -> String -> String
-checkLength lengthCheck str =
-  if lengthCheck str
+checkLength isLong s =
+  if isLong s
     then "Long enough."
     else "Too short."
 

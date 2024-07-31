@@ -7,7 +7,7 @@ module TypeClassSpec (spec) where
 import Control.Monad.Reader (ReaderT, ask, runReaderT)
 import Data.Text (Text, pack)
 import Test.Hspec (Spec, it, shouldBe)
-import Test.MockCat (createMock, createStubFn, stubFn, (|>))
+import Test.MockCat (createMock, createStubFn, stubFn, (|>), shouldApplyTo)
 import Prelude hiding (readFile, writeFile)
 
 class (Monad m) => FileOperation m where
@@ -30,7 +30,7 @@ data Functions = Functions
     _writeFile :: FilePath -> Text -> ()
   }
 
-instance FileOperation (ReaderT Functions IO) where
+instance Monad m => FileOperation (ReaderT Functions m) where
   readFile path = ask >>= \f -> pure $ f._readFile path
   writeFile path content = ask >>= \f -> pure $ f._writeFile path content
 
@@ -53,3 +53,4 @@ spec = do
         functions
 
     result `shouldBe` ()
+    writeFileMock `shouldApplyTo` ("output.text" |> pack "modifiedContent")
