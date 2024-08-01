@@ -12,8 +12,7 @@ module PolySemySpec (spec) where
 
 import Data.Function ((&))
 import Data.Text
-import Polysemy (Embed, Members, Sem, interpret, makeSem, runM)
-import Polysemy.Resource
+import Polysemy (Members, Sem, interpret, makeSem, runM)
 import Test.Hspec (Spec, it, shouldBe)
 import Test.MockCat (createMock, createStubFn, stubFn, (|>), shouldApplyTo)
 import Prelude hiding (readFile, writeFile)
@@ -25,7 +24,7 @@ data FileOperation m a where
 makeSem ''FileOperation
 
 program ::
-  (Members [FileOperation, Resource, Embed IO] r) =>
+  (Members '[FileOperation] r) =>
   FilePath ->
   FilePath ->
   (Text -> Text) ->
@@ -50,7 +49,6 @@ spec = do
     result <-
       program "input.txt" "output.text" modifyContentStub
         & runFileOperation
-        & runResource
         & runM
 
     result `shouldBe` ()
