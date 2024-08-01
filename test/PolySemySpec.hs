@@ -24,7 +24,7 @@ data FileOperation m a where
 makeSem ''FileOperation
 
 program ::
-  (Members '[FileOperation] r) =>
+  Members '[FileOperation] r =>
   FilePath ->
   FilePath ->
   (Text -> Text) ->
