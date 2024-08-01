@@ -12,7 +12,7 @@ module PolySemySpec (spec) where
 
 import Data.Function ((&))
 import Data.Text
-import Polysemy (Members, Sem, interpret, makeSem, runM)
+import Polysemy (Sem, interpret, makeSem, runM, Member)
 import Test.Hspec (Spec, it, shouldBe)
 import Test.MockCat (createMock, createStubFn, stubFn, (|>), shouldApplyTo)
 import Prelude hiding (readFile, writeFile)
@@ -24,7 +24,7 @@ data FileOperation m a where
 makeSem ''FileOperation
 
 program ::
-  Members '[FileOperation] r =>
+  Member FileOperation r =>
   FilePath ->
   FilePath ->
   (Text -> Text) ->
