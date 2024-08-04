@@ -41,16 +41,13 @@ spec = do
     writeFileMock <- createMock $ "output.text" |> pack "modifiedContent" |> ()
     modifyContentStub <- createStubFn $ pack "content" |> pack "modifiedContent"
 
-    let functions =
-          Functions
-            { _readFile = readFileStub,
-              _writeFile = stubFn writeFileMock
-            }
+    let functions = Functions {
+      _readFile = readFileStub,
+      _writeFile = stubFn writeFileMock }
 
-    result <-
-      runReaderT
-        (program "input.txt" "output.text" modifyContentStub)
-        functions
+    result <- runReaderT
+      (program "input.txt" "output.text" modifyContentStub)
+      functions
 
     result `shouldBe` ()
     writeFileMock `shouldApplyTo` ("output.text" |> pack "modifiedContent")
