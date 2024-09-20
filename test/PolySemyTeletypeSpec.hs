@@ -10,8 +10,7 @@
 
 module PolySemyTeletypeSpec (spec) where
 
-import Data.Function ((&))
-import Polysemy (Sem, interpret, makeSem, runM, Member, Embed, embed)
+import Polysemy (Sem, interpret, makeSem, runM, Member, embed)
 import Test.Hspec (Spec, it, shouldBe)
 import Prelude hiding (readFile, writeFile)
 import Test.MockCat
@@ -37,15 +36,11 @@ spec = do
       onCase $ pure @IO ""
     writeTTYMock <- createMock $ "output" |> pure @IO ()
 
-    let runEcho :: Member (Embed IO) r => Sem (Teletype : r) a -> Sem r a
-        runEcho = interpret $ \case
+    let runEcho = interpret $ \case
           ReadTTY -> embed readTTYStubFn
           WriteTTY text -> embed $ stubFn writeTTYMock text
 
-    result <-
-      echo
-        & runEcho
-        & runM
+    result <- (runM . runEcho) echo
 
     result `shouldBe` ()
     writeTTYMock `shouldApplyTo` "output"
