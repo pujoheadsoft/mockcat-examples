@@ -5,12 +5,12 @@
 
 packages:
 - completed:
-    hackage: mockcat-0.3.1.0@sha256:fd89d0bee6094fc8f2119fe93de5471799d83a0260ac3f46336ed4563b4912a3,2611
+    hackage: mockcat-0.5.1.0@sha256:1ec6f18830b4c35e4571272d6a266ab094b587069496f56b22ec5bf2545b0ff3,3002
     pantry-tree:
-      sha256: 8399518de2dc8c7135d5d6ec6f8d1115ea672cfffb6fc77123c399f1d3249522
-      size: 1355
+      sha256: d8500386c61861ed243d2cd958e7334c0e175492d2d65244de338c152f8f5160
+      size: 1647
   original:
-    hackage: mockcat-0.3.1.0
+    hackage: mockcat-0.5.1.0
 snapshots:
 - completed:
     sha256: acaab6ca693211938d1542abcb1c83a2f298b9f6b571854a9d38febe39b6408e

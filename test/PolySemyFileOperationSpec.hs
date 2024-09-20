@@ -8,14 +8,14 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 
-module PolySemySpec (spec) where
+module PolySemyFileOperationSpec (spec) where
 
 import Data.Function ((&))
 import Data.Text
 import Polysemy (Sem, interpret, makeSem, runM, Member)
 import Test.Hspec (Spec, it, shouldBe)
-import Test.MockCat (createMock, createStubFn, stubFn, (|>), shouldApplyTo)
 import Prelude hiding (readFile, writeFile)
+import Test.MockCat
 
 data FileOperation m a where
   ReadFile :: FilePath -> FileOperation m Text
