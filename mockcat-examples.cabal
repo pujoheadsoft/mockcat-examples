@@ -46,8 +46,11 @@ library
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -fplugin=Polysemy.Plugin -O2 -flate-specialise -fspecialise-aggressively -ddump-splices -ddump-to-file
   build-depends:
       HMock >=0.5.1.2
+    , aeson
     , base >=4.7 && <5
+    , bytestring
     , hspec
+    , http-conduit
     , mockcat
     , mtl
     , polysemy
@@ -77,8 +80,11 @@ executable mockcat-examples-exe
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -fplugin=Polysemy.Plugin -O2 -flate-specialise -fspecialise-aggressively -ddump-splices -ddump-to-file -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       HMock >=0.5.1.2
+    , aeson
     , base >=4.7 && <5
+    , bytestring
     , hspec
+    , http-conduit
     , mockcat
     , mockcat-examples
     , mtl
@@ -91,6 +97,7 @@ test-suite mockcat-examples-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      ApiClientSpec
       PolySemyFileOperationSpec
       PolySemyTeletypeSpec
       SimpleCaseSpec
@@ -116,8 +123,11 @@ test-suite mockcat-examples-test
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -fplugin=Polysemy.Plugin -O2 -flate-specialise -fspecialise-aggressively -ddump-splices -ddump-to-file -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       HMock >=0.5.1.2
+    , aeson
     , base >=4.7 && <5
+    , bytestring
     , hspec
+    , http-conduit
     , mockcat
     , mockcat-examples
     , mtl

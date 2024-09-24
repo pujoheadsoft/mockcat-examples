@@ -28,6 +28,9 @@ dependencies:
 - mockcat
 - text
 - mtl
+- aeson
+- bytestring
+- http-conduit
 
 ghc-options:
 - -Wall
