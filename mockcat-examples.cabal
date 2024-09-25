@@ -101,6 +101,7 @@ test-suite mockcat-examples-test
       PolySemyFileOperationSpec
       PolySemyTeletypeSpec
       SimpleCaseSpec
+      TeleTypeSpec
       TypeClassSpec
       TypeClassWithHMockSpec
       TypeClassWithMockCatSpec
